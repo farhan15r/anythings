@@ -132,7 +132,6 @@ upstream netbird-server {
 - [ ] Jangan asal copy snippet nginx dari sumber lama/tidak resmi — cek dulu apakah topologi (combined container vs multi-container) cocok dengan versi & arsitektur yang dipakai.
 - [ ] Kalau pakai `keepalive N;` di upstream block, **selalu** pasangkan dengan `proxy_http_version 1.1;` dan `proxy_set_header Connection "";` di semua location yang memakai upstream itu.
 - [ ] Jangan pasang `keepalive` di upstream backend kalau tidak benar-benar butuh (default aman = tanpa keepalive, kecuali ada bukti kebutuhan performa nyata).
-- [ ] Selalu set `proxy_set_header Host $host;` secara eksplisit — default nginx mengirim nama upstream/`$proxy_host`, bukan domain asli client.
 - [ ] Endpoint WebSocket/gRPC punya aturan keepalive sendiri (`Connection: Upgrade`, `grpc_pass`) — jangan disamakan dengan endpoint HTTP biasa.
 - [ ] Kalau menemukan error intermiten "gagal sekali, sukses saat retry dengan request identik" → curigai stale keepalive connection duluan sebelum curiga ke bug aplikasi/jaringan.
 - [ ] Cara isolasi cepat: bandingkan hasil curl **langsung ke backend** vs **lewat nginx**, diulang banyak kali. Kalau backend selalu sukses tapi lewat nginx kadang gagal → masalah di layer nginx↔backend, bukan di aplikasi.
